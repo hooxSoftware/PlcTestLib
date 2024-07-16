@@ -12,8 +12,8 @@
 *******************************************************************************/
 
 #define IMPLFILE
-#include "src-gen/plctestl_impl.h"
-#include "src-gen/plctestl.h"
+#include "src-gen/plctest_impl.h"
+#include "src-gen/plctest.h"
 #undef IMPLFILE
 
 /*
@@ -55,7 +55,7 @@ typedef enum
  variable definitions
  **********************************************************************
  */
-UINT32 plctestl_LibHandle;				/* library-handle */
+UINT32 plctest_LibHandle;				/* library-handle */
 SINT32 si32TaskHandle;
 UINT32 ui32TaskDelay;
 plc_EErrorCode eErrorCode;
@@ -88,7 +88,7 @@ void PLCTEST_Main(void);
  * @retval     Ok        : initialization is ok
  *
 *******************************************************************************/
-MLOCAL SINT32 PLCTESTL_PlcDllPrepareEx_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo, PLC_EXTLIBCONFIG *pConfig)// @suppress("Unused static function")
+MLOCAL SINT32 PLCTEST_PlcDllPrepareEx_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo, PLC_EXTLIBCONFIG *pConfig)// @suppress("Unused static function")
 {
     eErrorCode =  eNOREGISTRY;
     return OK;
@@ -103,9 +103,9 @@ MLOCAL SINT32 PLCTESTL_PlcDllPrepareEx_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInf
  *
  * @retval     N/A
 *******************************************************************************/
-MLOCAL VOID PLCTESTL_PlcDllInit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo) // @suppress("Unused static function")
+MLOCAL VOID PLCTEST_PlcDllInit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo) // @suppress("Unused static function")
 {
-    plctestl_LibHandle = 0;
+    plctest_LibHandle  = 0;
     ui32TaskDelay      = 0;
     si32TaskHandle     = 0;
     pPlcName           = libplc_GetProjectName(pProject);
@@ -152,7 +152,7 @@ MLOCAL VOID PLCTESTL_PlcDllInit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo) // @
  *
  * @retval     N/A
 *******************************************************************************/
-MLOCAL VOID PLCTESTL_PlcDllDeinit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo)// @suppress("Unused static function")
+MLOCAL VOID PLCTEST_PlcDllDeinit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo)// @suppress("Unused static function")
 {
     test_Info("Clean up Testregistry!");
 
@@ -392,7 +392,6 @@ void PLCTEST_Main(void)
     test_Info("PLCTEST_Main: Removed");
 
 }
-
 /* ----------------------------------------------------------------- */
 BOOL8 PLCTEST_ASSERT_TRUE(BOOL8 in)
 {
@@ -457,19 +456,19 @@ BOOL8 PLCTEST_ASSERT_NOT_EQUAL_STRING(CHAR *actual, CHAR *expected)
     plc_Assert_NOT_EQUAL(strcmp(actual, expected), 0);
     return TRUE;
 };
-///* ----------------------------------------------------------------- */
-//BOOL8 PLCTEST_ASSERT_EQUAL_STRINGN(CHAR *actual, CHAR *expected, UINT32 size)
-//{
-//    plc_Assert_EQUAL(strncmp(actual, expected, size), 0);
-//    return TRUE;
-//};
-///* ----------------------------------------------------------------- */
-//BOOL8 PLCTEST_ASSERT_NOT_EQUAL_STRINGN(CHAR *actual, CHAR *expected, UINT32 size)
-//{
-//    plc_Assert_NOT_EQUAL(strncmp(actual, expected, size), 0);
-//    return TRUE;
-//};
-///* ----------------------------------------------------------------- */
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_EQUAL_NSTRING(CHAR *actual, CHAR *expected, UINT32 size)
+{
+    plc_Assert_EQUAL(strncmp(actual, expected, size), 0);
+    return TRUE;
+};
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_NOT_EQUAL_NSTRING(CHAR *actual, CHAR *expected, UINT32 size)
+{
+    plc_Assert_NOT_EQUAL(strncmp(actual, expected, size), 0);
+    return TRUE;
+};
+/* ----------------------------------------------------------------- */
 BOOL8 PLCTEST_EXPORTRESULT(CHAR *strPath, CHAR *strFile)
 {
     plc_export_TestRegistry(strPath, strFile);

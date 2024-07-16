@@ -1,9 +1,9 @@
-;Script for MBIND to build plctestl.plm
+;Script for MBIND to build plctest.plm
 ;
 ;Header
 ;
 ModuleType        = PLO
-Version           = src-gen\plctestl.ver
+Version           = src-gen\plctest.ver
 Reentrant         = FALSE
 NoOnlineConfig    = FALSE
 NoOnlineInstall   = FALSE
@@ -17,8 +17,8 @@ SystemModule      = FALSE
 ;
 ObjectType        = LIB
 ObjectMode        = NORMAL
-Version           = src-gen\plctestl.ver
-ObjectName        = plctestl.o
+Version           = src-gen\plctest.ver
+ObjectName        = plctest.o
 
 
 ObjectType        = SWREQ

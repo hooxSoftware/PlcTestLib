@@ -1,4 +1,4 @@
-Name=plctestl
+Name=plctest
 
 Version 1.1.0 Beta
 
@@ -184,24 +184,24 @@ END_VAR
 
 (*
   Assertion that actual end expected are equal
-
-FUNCTION PlcTest_ASSERT_EQUAL_STRINGN : BOOL
+*)
+FUNCTION PlcTest_ASSERT_EQUAL_NSTRING : BOOL
 VAR_INPUT
     actual   : STRING;
     expected : STRING;
     size	 : UDINT;
 END_VAR  
 
-
+(*
  Assertion that actual end expected are not equal
-
-FUNCTION PlcTest_ASSERT_NOT_EQUAL_STRINGN : BOOL
+*)
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_NSTRING : BOOL
 VAR_INPUT
     actual   : STRING;
     expected : STRING;
     size	 : UDINT;
 END_VAR     
-*)
+
 (*
 	set debugmode for logging
 *)
