@@ -1,0 +1,211 @@
+Name=plctestl
+
+Version 1.1.0 Beta
+
+
+(*
+ Structure with information about one single Test
+*)
+TYPE SPlcTest_Test := 0
+STRUCT
+    bStart		: BOOL;
+    bFinished 	: BOOL;
+    s32State    : DINT;
+END_STRUCT
+END_TYPE 
+
+(*
+ create single testsuite
+*)
+FUNCTION PlcTest_CreateTestsuite : DINT
+VAR_INPUT
+	strName 	: STRING;
+	strPackage 	: STRING;
+END_VAR
+
+(*
+ add single test to testsuite
+*)
+FUNCTION PlcTest_addTest : BOOL
+VAR_INPUT
+	TestSuiteID : DINT;
+	strName   	: STRING;
+	strClass   	: STRING;
+	pInfo		: POINTER TO SPlcTest_Test;
+END_VAR
+
+(*
+	run all tests
+*)
+FUNCTION PlcTest_Start : BOOL
+VAR_INPUT
+	dummy : DINT;
+END_VAR
+
+(*
+	check if all tests finished
+*)
+FUNCTION PlcTest_isFinished : BOOL
+VAR_INPUT
+	dummy : DINT;
+END_VAR
+
+
+(*
+	Export actual Results
+*)
+FUNCTION PlcTest_ExportResult : BOOL
+VAR_INPUT
+	strPath   	: STRING;
+	strFile   	: STRING;
+END_VAR
+
+(*
+	Export actual Results to console
+*)
+FUNCTION PlcTest_ShowLog : BOOL
+VAR_INPUT
+	dummy : DINT;	
+END_VAR
+
+(*
+	signals that actual test is finished
+*)
+FUNCTION PlcTest_TestFinished : BOOL
+VAR_INPUT
+	dummy : DINT;
+END_VAR
+
+(*
+ 	get value of errorcode
+*)
+FUNCTION PlcTest_getError : DINT
+VAR_INPUT
+	dDummy : DINT;
+END_VAR
+
+(*
+	add message to actual test
+*)
+FUNCTION PlcTest_SetMessage : DINT
+VAR_INPUT
+	strMessage : STRING;
+END_VAR
+
+(*
+  Assertion that in is true
+*)
+FUNCTION PlcTest_ASSERT_TRUE : BOOL
+VAR_INPUT
+    in : BOOL;
+END_VAR  
+
+(*
+  Assertion that in is FALSE
+*)
+FUNCTION PlcTest_ASSERT_FALSE : BOOL
+VAR_INPUT
+    in : BOOL;
+END_VAR    
+
+(*
+  Assertion that actual end expected are equal
+*)
+FUNCTION PlcTest_ASSERT_EQUAL : BOOL
+VAR_INPUT
+    actual   : DINT;
+    expected : DINT;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+FUNCTION PlcTest_ASSERT_NOT_EQUAL : BOOL
+VAR_INPUT
+    actual   : DINT;
+    expected : DINT;
+END_VAR    
+
+(*
+  Assertion that actual end expected are equal
+*)
+FUNCTION PlcTest_ASSERT_EQUAL_REAL : BOOL
+VAR_INPUT
+    actual  	: REAL;
+    expected 	: REAL;
+    granularity : REAL;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_REAL : BOOL
+VAR_INPUT
+    actual   	: REAL;
+    expected 	: REAL;
+    granularity : REAL;    
+END_VAR    
+
+(*
+  Assertion that actual end expected are equal
+*)
+FUNCTION PlcTest_ASSERT_EQUAL_TIME : BOOL
+VAR_INPUT
+    actual   : TIME;
+    expected : TIME;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_TIME : BOOL
+VAR_INPUT
+    actual   : TIME;
+    expected : TIME;
+END_VAR   
+
+(*
+  Assertion that actual end expected are equal
+*)
+FUNCTION PlcTest_ASSERT_EQUAL_STRING : BOOL
+VAR_INPUT
+    actual   : STRING;
+    expected : STRING;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_STRING : BOOL
+VAR_INPUT
+    actual   : STRING;
+    expected : STRING;
+END_VAR 
+
+(*
+  Assertion that actual end expected are equal
+
+FUNCTION PlcTest_ASSERT_EQUAL_STRINGN : BOOL
+VAR_INPUT
+    actual   : STRING;
+    expected : STRING;
+    size	 : UDINT;
+END_VAR  
+
+
+ Assertion that actual end expected are not equal
+
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_STRINGN : BOOL
+VAR_INPUT
+    actual   : STRING;
+    expected : STRING;
+    size	 : UDINT;
+END_VAR     
+*)
+(*
+	set debugmode for logging
+*)
+FUNCTION PlcTest_Logging : BOOL
+VAR_INPUT
+	bActive : BOOL;
+END_VAR

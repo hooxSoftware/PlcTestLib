@@ -1,0 +1,28 @@
+;Script for MBIND to build plctestl.plm
+;
+;Header
+;
+ModuleType        = PLO
+Version           = src-gen\plctestl.ver
+Reentrant         = FALSE
+NoOnlineConfig    = FALSE
+NoOnlineInstall   = FALSE
+NoOnlineDeinstall = FALSE
+DebugInfo         = TRUE
+ErrorTolerant     = FALSE
+NoAutoInstall     = FALSE
+SystemModule      = FALSE 
+;
+;Object-Code
+;
+ObjectType        = LIB
+ObjectMode        = NORMAL
+Version           = src-gen\plctestl.ver
+ObjectName        = plctestl.o
+
+
+ObjectType        = SWREQ
+Version           = src-gen\minmsys.ver
+ObjectName        = MSYS
+
+

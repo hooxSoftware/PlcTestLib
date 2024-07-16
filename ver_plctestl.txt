@@ -1,0 +1,17 @@
+-----------------------------------------------------------------------------
+Description of the changes in module
+-----------------------------------------------------------------------------
+V1.00.00 Beta
+First Beta Version
+
+Tested with:
+        MCore  V4.60
+        MSys   V4.73
+
+Changes compared to previous version:
+        - none
+
+Known problems:
+        - none
+
+-----------------------------------------------------------------------------
