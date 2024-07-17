@@ -6,6 +6,9 @@ UnitTest library for Bachmann Electronic PLC Developer
 the project sample contains some code showing the
 usage of the library.
 
+Download it with the compiled library here
+https://www.hoox.software/downloads.html#bachmann
+
 ## First you have to register a testsuite 
 
 PlcTest_CreateTestsuite(Name of testsuite, Path to tested function)
