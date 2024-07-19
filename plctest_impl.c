@@ -60,6 +60,8 @@ SINT32 si32TaskHandle;
 UINT32 ui32TaskDelay;
 plc_EErrorCode eErrorCode;
 CHAR* pPlcName;
+CHAR strExportPath[255];
+CHAR strExportFile[255];
 
 plc_ETestRun eTestRun;
 
@@ -91,6 +93,7 @@ void PLCTEST_Main(void);
 MLOCAL SINT32 PLCTEST_PlcDllPrepareEx_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo, PLC_EXTLIBCONFIG *pConfig)// @suppress("Unused static function")
 {
     eErrorCode =  eNOREGISTRY;
+    plc_SetDebugMode(0);
     return OK;
 }
 
@@ -341,8 +344,13 @@ void PLCTEST_Main(void)
 
         case eExport:
 
-            test_Info("PLCTEST: Export Result not implemented yet, sorry!");
+            test_Info("Export Started!");
+
+            plc_export_TestRegistry(&strExportPath[0], &strExportFile[0]);
+
+            test_Info("Export Finished!");
             eTestRun = eIdle;
+
             break;
 
         case eShowLog:
@@ -471,9 +479,21 @@ BOOL8 PLCTEST_ASSERT_NOT_EQUAL_NSTRING(CHAR *actual, CHAR *expected, UINT32 size
 /* ----------------------------------------------------------------- */
 BOOL8 PLCTEST_EXPORTRESULT(CHAR *strPath, CHAR *strFile)
 {
-    plc_export_TestRegistry(strPath, strFile);
-    eTestRun = eExport;
-    return TRUE;
+    memset(&strExportPath, 0, sizeof(strExportPath));
+    memset(&strExportFile, 0, sizeof(strExportFile));
+
+    strncpy(&strExportPath[0], &strPath[0], strlen(&strPath[0]));
+    strncpy(&strExportFile[0], &strFile[0], strlen(&strFile[0]));
+
+    if (eTestRun != eExecute)
+    {
+        eTestRun = eExport;
+        return TRUE;
+    }
+
+    test_Err("Test is executing, do export possible!");
+
+    return FALSE;
 }
 /* ----------------------------------------------------------------- */
 BOOL8 PLCTEST_SHOWLOG(SINT32 dummy)
