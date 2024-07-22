@@ -47,6 +47,11 @@ started
 
 
 #### PlcTest_CreateTestsuite
+|Return|Description|
+|---   |--- |
+|0     |error|
+|<> 0  |id (DINT) of created testsuite|
+
 |Variable|Type|Description|
 |--|--|--|
 |strName   |String|--|
@@ -68,9 +73,12 @@ run all registered tests
 
 #### PlcTest_isFinished
 check if testrun is finished
-returns 
-	true  : finished
-	false : running or not started
+
+|Return|Description|
+|---    |--- |
+|true   |finished|
+|false  |running or not started|
+
 
 
 #### PlcTest_ExportResult
@@ -82,105 +90,117 @@ returns
 
 #### PlcTest_getError
 check if error occured during testrun
-returns 
-	true  : error occured
-	false : no error
+
+|Return|Description|
+|---    |--- |
+|true   |error occured|
+|false  |no error|
 
 
 #### PlcTest_TestFinished
 call if your test is finished
 
 ## Assertions
+Assertion always compare an actual and an expected value.
+
+If both are equal or not_equal (depending on the called function)
+
+the test will pass or fail.
+
+assert_true/assert_false are working with a single boolean comparison
+like 
+assert_true(0=1) : will fail 
+assert_true(1=1) : will pass 
 
 #### PlcTest_SetMessage
 |Variable|Type|Description|
 |--|--|--|
-|strMessage   |String|--|
+|strMessage   |String|message to store in result on error|
 
 
 #### PlcTest_ASSERT_TRUE
-|Variable|Type|Description|
-|--|--|--|
-|in   |BOOL|--|
+|Variable|Type|
+|--|--|
+|in   |BOOL|
 
 
 #### PlcTest_ASSERT_FALSE
-|Variable|Type|Description|
-|--|--|--|
-|in   |BOOL|--|
+|Variable|Type|
+|--|--|
+|in   |BOOL|
 
 
 #### PlcTest_ASSERT_EQUAL
-|Variable|Type|Description|
-|--|--|--|
-|actual   |DINT|--|
-|expected |DINT|--|
+|Variable|Type|
+|--|--|
+|actual   |DINT|
+|expected |DINT|
 
 
 #### PlcTest_ASSERT_NOT_EQUAL
-|Variable|Type|Description|
-|--|--|--|
-|actual   |DINT|--|
-|expected |DINT|--|
+|Variable|Type|
+|--|--|
+|actual   |DINT|
+|expected |DINT|
 
 
 #### PlcTest_ASSERT_EQUAL_TIME
-|Variable|Type|Description|
-|--|--|--|
-|actual   |TIME|--|
-|expected |TIME|--|
+|Variable|Type|
+|--|--|
+|actual   |TIME|
+|expected |TIME|
 
 
 #### PlcTest_ASSERT_NOT_EQUAL_TIME
-|Variable|Type|Description|
-|--|--|--|
-|actual   |TIME|--|
-|expected |TIME|--|
+|Variable|Type|
+|--|--|
+|actual   |TIME|
+|expected |TIME|
 
 
 #### PlcTest_ASSERT_EQUAL_REAL
-|Variable|Type|Description|
-|--|--|--|
-|actual   		|REAL|--|
-|expected 		|REAL|--|
-|granularity 	|REAL|--|
+|Variable|Type|
+|--|--|
+|actual   		|REAL|
+|expected 		|REAL|
+|granularity 	|REAL|
 
 
 #### PlcTest_ASSERT_NOT_EQUAL_REAL
-|Variable|Type|Description|
-|--|--|--|
-|actual   		|REAL|--|
-|expected 		|REAL|--|
-|granularity 	|REAL|--|
+|Variable|Type|
+|--|--|
+|actual   		|REAL|
+|expected 		|REAL|
+|granularity 	|REAL|
 
 
 #### PlcTest_ASSERT_EQUAL_STRING
-|Variable|Type|Description|
-|--|--|--|
-|actual   |STRING|--|
-|expected |STRING|--|
+|Variable|Type|
+|--|--|
+|actual   |STRING|
+|expected |STRING|
 
 
 #### PlcTest_ASSERT_NOT_EQUAL_STRING
-|Variable|Type|Description|
-|--|--|--|
-|actual   |STRING|--|
-|expected |STRING|--|
+|Variable|Type|
+|--|--|
+|actual   |STRING|
+|expected |STRING|
 
 
 #### PlcTest_ASSERT_EQUAL_NSTRING
-|Variable|Type|Description|
-|--|--|--|
-|actual   |STRING|--|
-|expected |STRING|--|
-|size 	 |UDINT|--|
+|Variable|Type|
+|--|--|
+|actual   |STRING|
+|expected |STRING|
+|size 	 |UDINT|
 
 
 #### PlcTest_ASSERT_NOT_EQUAL_NSTRING
-|Variable|Type|Description|
-|--|--|--|
-|actual   |STRING|--|
-|expected |STRING|--|
-|size 	 |UDINT|--|
+|Variable|Type|
+|--|--|
+|actual   |STRING|
+|expected |STRING|
+|size 	 |UDINT|
 
 
