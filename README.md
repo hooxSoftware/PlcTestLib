@@ -3,7 +3,7 @@ UnitTest library for Bachmann Electronic PLC Developer
 
 ### Usage
 
-the project sample contains some code showing the
+the project sample contains some code showing the <br>
 usage of the library.
 
 Download it with the compiled library here
@@ -15,7 +15,7 @@ PlcTest_CreateTestsuite(Name of testsuite, Path to tested function)
 
 2. register tests
 
-PlcTest_addTest(Testsuite ID, Testname, name of tested function, pointer to SPlcTest_Test)
+PlcTest_addTest(Testsuite ID, Testname, name of tested function, pointer to SPlcTest_Test)<br>
 SPlcTest_Test works as interface between library and test plc
 
 3. start test
@@ -24,8 +24,7 @@ SPlcTest_Test.bStart = true -> this test is running
 
 4. finish test 
 
-call PlcTest_TestFinished to tell the library that the next test can be
-started
+call PlcTest_TestFinished to tell the library that the next test can be started
 
 ### Elements
 
@@ -33,9 +32,9 @@ started
 
 |Variable|Type|Description|
 |---|---|---|
-|bStart    |BOOL|---|
-|bFinished |BOOL|---|
-|s32State  |DINT|---|
+|bStart    |BOOL|test starts|
+|bFinished |BOOL|test is finished|
+|s32State  |DINT|state of test |
 
 
 #### Test State
@@ -54,17 +53,17 @@ started
 
 |Variable|Type|Description|
 |--|--|--|
-|strName   |String|--|
-|strPackage|String|--|
+|strName   |String|Name of testsuite|
+|strPackage|String|path to pous|
 
 
 #### PlcTest_addTest
 |Variable|Type|Description|
 |--|--|--|
 |TestSuiteID   |DINT     |--|
-|strName       |String   |--|
-|strClass      |String   |--|
-|pInfo         |POINTER TO SPlcTest_Test|--|
+|strName       |String   |Name of test|
+|strClass      |String   |name of pou to test|
+|pInfo         |POINTER TO SPlcTest_Test| interface to controls structure|
 
 
 #### PlcTest_Start
@@ -84,8 +83,8 @@ check if testrun is finished
 #### PlcTest_ExportResult
 |Variable|Type|Description|
 |--|--|--|
-|strPath   |String|--|
-|strFile   |String|--|
+|strPath   |String|where to store the result 'cfc0/test/'|
+|strFile   |String|filename 'junit.xml'|
 
 
 #### PlcTest_getError
@@ -101,15 +100,13 @@ check if error occured during testrun
 call if your test is finished
 
 ## Assertions
-Assertion always compare an actual and an expected value.
-
-If both are equal or not_equal (depending on the called function)
-
+Assertion always compare an actual and an expected value. <br>
+If both are equal or not_equal (depending on the called function)<br>
 the test will pass or fail.
 
-assert_true/assert_false are working with a single boolean comparison
-like 
-assert_true(0=1) : will fail 
+assert_true/assert_false are working with a single boolean <br>
+comparison like <br> 
+assert_true(0=1) : will fail <br>
 assert_true(1=1) : will pass 
 
 #### PlcTest_SetMessage
@@ -175,6 +172,7 @@ assert_true(1=1) : will pass
 
 
 #### PlcTest_ASSERT_EQUAL_STRING
+This assertion calls a simple strcmp <br>
 |Variable|Type|
 |--|--|
 |actual   |STRING|
@@ -182,6 +180,7 @@ assert_true(1=1) : will pass
 
 
 #### PlcTest_ASSERT_NOT_EQUAL_STRING
+This assertion calls a simple strcmp <br>
 |Variable|Type|
 |--|--|
 |actual   |STRING|
@@ -189,6 +188,7 @@ assert_true(1=1) : will pass
 
 
 #### PlcTest_ASSERT_EQUAL_NSTRING
+This assertion calls strncmp <br>
 |Variable|Type|
 |--|--|
 |actual   |STRING|
@@ -197,6 +197,7 @@ assert_true(1=1) : will pass
 
 
 #### PlcTest_ASSERT_NOT_EQUAL_NSTRING
+This assertion calls strncmp <br>
 |Variable|Type|
 |--|--|
 |actual   |STRING|
