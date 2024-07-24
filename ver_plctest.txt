@@ -1,6 +1,20 @@
 -----------------------------------------------------------------------------
 Description of the changes in module
 -----------------------------------------------------------------------------
+V1.02.00 Beta
+add new assertions and change name of library
+
+Tested with:
+        MCore  V4.60
+        MSys   V4.73
+
+Changes compared to previous version:
+        - export data in background task
+
+Known problems:
+        - none
+
+-----------------------------------------------------------------------------
 V1.01.00 Beta
 add new assertions and change name of library
 

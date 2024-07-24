@@ -3,12 +3,12 @@
 * This file was generated automatically and must be implemented.
 ********************************************************************************
 * @file     plctestl_impl.c
-* @author   PIDL C Generator
+* @author   Patrick Dressel
 * @date     $LastChangeDate: ${DateAndTime} $
 * @brief
 *
 ********************************************************************************
-* COPYRIGHT BY BACHMANN ELECTRONIC GmbH ${Year}
+* COPYRIGHT BY hoox.software (2024)
 *******************************************************************************/
 
 #define IMPLFILE
