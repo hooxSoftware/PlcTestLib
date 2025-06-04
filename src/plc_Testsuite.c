@@ -189,6 +189,8 @@ plc_pTestSuite plc_getSuite(CHAR8* pName)
 //----------------------------------------------------------------------------/
 plc_pTestSuite plc_getFirstSuite()
 {
+    plc_prepare_Suite(pTestRegistry->pSuite);
+
     return pTestRegistry->pSuite;
 }
 
@@ -219,6 +221,7 @@ plc_pTestSuite plc_getNextSuite(plc_pTestSuite pSuite)
 
         if (pSuite->pNext != NULL)
         {
+            plc_prepare_Suite(pSuite->pNext);
             // check valid testlist
             if (pSuite->pNext->pTest == NULL)
             {
@@ -230,6 +233,17 @@ plc_pTestSuite plc_getNextSuite(plc_pTestSuite pSuite)
     }
 
     return NULL;
+}
+
+//----------------------------------------------------------------------------/
+plc_EErrorCode plc_prepare_Suite(plc_pTestSuite pSuite)
+{
+    if (pSuite != NULL)
+    {
+        pSuite->sResult.u32Failed = 0;
+        pSuite->sResult.u32Passed = 0;
+    }
+    return eSUCCESS;
 }
 
 //----------------------------------------------------------------------------/

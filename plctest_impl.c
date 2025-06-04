@@ -244,7 +244,6 @@ BOOL8 PLCTEST_START(SINT32 dummy)
         pActiveTest  = plc_getFirstTest(pActiveSuite);
         if (pActiveTest != NULL)
         {
-            test_Info("PLCTEST: Start %s", pActiveTest->pName);
             plc_run_Test(pActiveTest);
         }
         eTestRun = eExecute;
@@ -535,7 +534,7 @@ BOOL8 PLCTEST_EXPORTRESULT(CHAR *strPath, CHAR *strFile)
         return TRUE;
     }
 
-    test_Err("Test is executing, do export possible!");
+    test_Err("Test is executing, no export possible!");
 
     return FALSE;
 }
