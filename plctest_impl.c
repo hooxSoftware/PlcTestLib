@@ -63,6 +63,11 @@ CHAR* pPlcName;
 CHAR strExportPath[255];
 CHAR strExportFile[255];
 
+const UINT32 POS_INFINITE = 0x7F800000;
+const UINT32 NEG_INFINITE = 0xFF800000;
+const UINT32 NAN_HIGH     = 0x7FC00000;
+const UINT32 NAN_LOW      = 0x000FFFFF;
+
 plc_ETestRun eTestRun;
 
 extern plc_pTestSuite    pActiveSuite;
@@ -475,6 +480,56 @@ BOOL8 PLCTEST_ASSERT_NOT_EQUAL_NSTRING(CHAR *actual, CHAR *expected, UINT32 size
     plc_Assert_NOT_EQUAL(strncmp(actual, expected, size), 0);
     return TRUE;
 };
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_IS_INFINITE(REAL32 actual)
+{
+    BOOL8 bTest = FALSE;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    UINT32 u32Pos    = u32Value & POS_INFINITE;
+    UINT32 u32Neg    = u32Value & NEG_INFINITE;
+
+    if ((u32Pos == POS_INFINITE) ||
+        (u32Neg == NEG_INFINITE))
+    {
+        bTest = TRUE;
+    }
+
+    plc_Assert_TRUE( bTest );
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_IS_NAN(REAL32 actual)
+{
+    BOOL8 bTest = FALSE;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    u32Value  = u32Value & NAN_HIGH;
+
+    if (u32Value == NAN_HIGH)
+    {
+        bTest = TRUE;
+    }
+
+    u32Value = u32Value & NAN_LOW;
+
+    if (u32Value == NAN_LOW)
+    {
+        bTest = TRUE;
+    }
+
+    plc_Assert_TRUE( bTest );
+
+    return TRUE;
+}
+
 /* ----------------------------------------------------------------- */
 BOOL8 PLCTEST_EXPORTRESULT(CHAR *strPath, CHAR *strFile)
 {

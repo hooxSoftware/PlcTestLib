@@ -205,3 +205,12 @@ This assertion calls strncmp <br>
 |size 	 |UDINT|
 
 
+#### PlcTest_ASSERT_IS_INFINITE
+|Variable|Type|
+|--|--|
+|actual   		|REAL|
+
+#### PlcTest_ASSERT_IS_NAN
+|Variable|Type|
+|--|--|
+|actual   		|REAL|
