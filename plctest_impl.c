@@ -485,10 +485,12 @@ BOOL8 PLCTEST_ASSERT_NOT_EQUAL_NSTRING(CHAR *actual, CHAR *expected, UINT32 size
 BOOL8 PLCTEST_ASSERT_IS_INFINITE(REAL32 actual)
 {
     BOOL8 bTest = FALSE;
-    REAL32 *pActual  = &actual;
-    UINT32 u32Actual = (UINT32)*pActual;
-    UINT32 u32Pos    = u32Actual & POS_INFINITE;
-    UINT32 u32Neg    = u32Actual & NEG_INFINITE;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    UINT32 u32Pos    = u32Value & POS_INFINITE;
+    UINT32 u32Neg    = u32Value & NEG_INFINITE;
 
     if ((u32Pos == POS_INFINITE) ||
         (u32Neg == NEG_INFINITE))
@@ -505,11 +507,20 @@ BOOL8 PLCTEST_ASSERT_IS_INFINITE(REAL32 actual)
 BOOL8 PLCTEST_ASSERT_IS_NAN(REAL32 actual)
 {
     BOOL8 bTest = FALSE;
-    REAL32 *pActual  = &actual;
-    UINT32 u32Actual = (UINT32)*pActual;
-    UINT32 u32Value  = u32Actual & NAN_HIGH;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    u32Value  = u32Value & NAN_HIGH;
 
     if (u32Value == NAN_HIGH)
+    {
+        bTest = TRUE;
+    }
+
+    u32Value = u32Value & NAN_LOW;
+
+    if (u32Value == NAN_LOW)
     {
         bTest = TRUE;
     }
