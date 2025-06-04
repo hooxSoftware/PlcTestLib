@@ -114,6 +114,7 @@ plc_pTest plc_getFirstTest(plc_TestSuite* pSuite)
         {
             pSuite->pTest->pData->bFinished = FALSE;
         }
+        plc_prepare_Test(pSuite->pTest);
 
         return pSuite->pTest;
     }
@@ -127,6 +128,8 @@ plc_pTest plc_getNextTest(plc_pTest pTest)
 
     if (pTest != NULL)
     {
+        plc_prepare_Test(pTest->pNext);
+
         if (pTest->pData != NULL)
         {
             pTest->pData->bStart    = FALSE;
@@ -140,6 +143,29 @@ plc_pTest plc_getNextTest(plc_pTest pTest)
     }
 
     return NULL;
+}
+
+//----------------------------------------------------------------------------/
+plc_EErrorCode plc_prepare_Test(plc_pTest pTest)
+{
+    if (pTest != NULL)
+    {
+        test_Info("PLCTEST: Prepare %s", pTest->pName);
+
+        pTest->sResult.u32Failed = 0;
+        pTest->sResult.u32Passed = 0;
+        pTest->sEnd.tv_nsec   = 0;
+        pTest->sEnd.tv_sec    = 0;
+        pTest->sStart.tv_nsec = 0;
+        pTest->sStart.tv_sec  = 0;
+        bzero(&pTest->strMessage[0], sizeof(plc_TestMessage_t));
+
+        if (pTest->pData != NULL)
+        {
+            pTest->pData->eState  = eSkipped;
+        }
+    }
+    return eSUCCESS;
 }
 
 //----------------------------------------------------------------------------/

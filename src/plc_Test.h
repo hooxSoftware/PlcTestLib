@@ -59,6 +59,8 @@ plc_pTest plc_getFirstTest(plc_TestSuite* pSuite);
 
 plc_pTest plc_getNextTest(plc_pTest pTest);
 
+plc_EErrorCode plc_prepare_Test(plc_pTest pTest);
+
 plc_EErrorCode plc_run_Test(plc_pTest pTest);
 
 

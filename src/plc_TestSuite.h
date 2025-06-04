@@ -65,6 +65,8 @@ plc_pTestSuite plc_getLastSuite();
 
 plc_pTestSuite plc_getNextSuite(plc_pTestSuite);
 
+plc_EErrorCode plc_prepare_Suite(plc_pTestSuite pSuite);
+
 plc_EErrorCode plc_run_Suite(CHAR8* pName);
 
 plc_pTestSuite plc_get_current_suite(void);
