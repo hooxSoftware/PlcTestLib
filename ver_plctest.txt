@@ -1,6 +1,19 @@
 -----------------------------------------------------------------------------
 Description of the changes in module
 -----------------------------------------------------------------------------
+V1.04.00 Beta
+
+Tested with:
+        MCore  V4.60
+        MSys   V4.80
+
+Changes compared to previous version:
+        - add assertions for loating points NaN and Infinity 
+
+Known problems:
+        - none
+
+-----------------------------------------------------------------------------
 V1.03.00 Beta
 
 Tested with:
