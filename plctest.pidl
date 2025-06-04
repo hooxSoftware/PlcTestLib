@@ -1,6 +1,6 @@
 Name=plctest
 
-Version 1.3.0 Beta
+Version 1.4.5 Beta
 
 
 (*
@@ -201,6 +201,22 @@ VAR_INPUT
     expected : STRING;
     size	 : UDINT;
 END_VAR     
+
+(*
+ Assertion that actual value is NAN
+*)
+FUNCTION PlcTest_ASSERT_IS_NAN : BOOL
+VAR_INPUT
+    actual : REAL;
+END_VAR   
+
+(*
+ Assertion that actual value is Infinite
+*)
+FUNCTION PlcTest_ASSERT_IS_INFINITE : BOOL
+VAR_INPUT
+    actual : REAL;
+END_VAR   
 
 (*
 	set debugmode for logging

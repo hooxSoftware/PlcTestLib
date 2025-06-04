@@ -51,6 +51,7 @@ UINT32 plc_GetDuration(struct timespec *sStart, struct timespec *sEnd);
 
 BOOL8 plc_CreateFolder(const CHAR* strPath);
 
+BOOL8 plc_StrEndsWith(const CHAR* strSource, const CHAR strSign);
 /*
  **********************************************************************
  inline function definitions

@@ -202,12 +202,21 @@ BOOL8 plc_CreateFolder(const CHAR* strPath)
 {
     int fd;
     int state;
+    CHAR strBuffer[255];
 
-    test_Info("Create folder %s", strPath);
+    bzero(&strBuffer[0], 255);
+    strcpy(&strBuffer[0], strPath);
 
-    fd = open(strPath, 0, O_RDONLY);
+    if (plc_StrEndsWith(&strBuffer[0], '/') == FALSE)
+    {
+        strBuffer[strlen(&strBuffer[0])] = '/';
+    }
 
-    state = ioctl(fd, FIOMKDIR, (int)strPath);
+    test_Info("Create folder %s", &strBuffer[0]);
+
+    fd = open("/cfc0", 0, O_RDONLY);
+
+    state = ioctl(fd, FIOMKDIR, (int)&strBuffer[0]);
 
     if (state == OK)
     {
@@ -217,6 +226,20 @@ BOOL8 plc_CreateFolder(const CHAR* strPath)
     test_Err("Create folder %s Failed", strPath);
 
     return FALSE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 plc_StrEndsWith(const CHAR* strSource, const CHAR strSign)
+{
+    int len = strlen(strSource);
+
+    if (len > 0 && strSource[len-1] == strSign)
+    {
+        return TRUE;
+    }
+    return FALSE;
+
+
 }
 
 // EOF
