@@ -97,7 +97,8 @@ typedef struct plc_Test
 {
     CHAR8* pName;
     CHAR8* pClass;
-    plc_TestMessage_t strMessage;
+    plc_TestMessage_t strMessage; // message on failed
+    plc_TestMessage_t strActMessage; // actual message of test
     plc_TestResult sResult;
     plc_TestData* pData;
     struct plc_Test* pPrev;

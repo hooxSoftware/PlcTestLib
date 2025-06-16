@@ -280,6 +280,10 @@ SINT32 PLCTEST_SETMESSAGE(CHAR *strMessage)
 {
     if (pActiveTest != NULL)
     {
+
+       bzero(&pActiveTest->strActMessage[0], sizeof(plc_TestMessage_t));
+       snprintf(&pActiveTest->strActMessage[0], sizeof(plc_TestMessage_t)-1,"%s", strMessage);
+
        if (pActiveTest->pData->eState > eFailed)
        {
            bzero(&pActiveTest->strMessage[0], sizeof(plc_TestMessage_t));
@@ -316,8 +320,6 @@ void PLCTEST_Main(void)
                 {
                     pActiveTest = plc_getNextTest(pActiveTest);
 
-                    plc_run_Test(pActiveTest);
-
                     if (pActiveTest == NULL)
                     {
                         pActiveSuite = plc_getNextSuite(pActiveSuite);
@@ -325,15 +327,14 @@ void PLCTEST_Main(void)
                         if (pActiveSuite != NULL)
                         {
                             test_Info("Start Testsuite %s", pActiveSuite->pName);
+
+                            pActiveTest  = plc_getFirstTest(pActiveSuite);
                         }
+                    }
 
-                        pActiveTest  = plc_getFirstTest(pActiveSuite);
-
-                        if (pActiveTest != NULL)
-                        {
-                            plc_run_Test(pActiveTest);
-                        }
-
+                    if (pActiveTest != NULL)
+                    {
+                        plc_run_Test(pActiveTest);
                     }
 
                 }

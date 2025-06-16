@@ -169,6 +169,8 @@ void plc_AssertImpl(BOOL8 bInput, BOOL8 bFatal)
         }
         pActiveTest->pData->eState = eFailed;
         test_Err("Assertion: Test %s failed", pActiveTest->pName);
+        test_Err("Assertion: Message %s", pActiveTest->strActMessage);
+
         if (bFatal)
         {
             pActiveTest->pData->eState = eFailedFatal;
