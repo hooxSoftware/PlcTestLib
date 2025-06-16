@@ -1,6 +1,6 @@
 Name=plctest
 
-Version 1.4.0 Beta
+Version 1.4.1 Beta
 
 
 (*
@@ -17,6 +17,7 @@ END_TYPE
 (*
  create single testsuite
 *)
+@Path='Framework'
 FUNCTION PlcTest_CreateTestsuite : DINT
 VAR_INPUT
 	strName 	: STRING;
@@ -26,6 +27,7 @@ END_VAR
 (*
  add single test to testsuite
 *)
+@Path='Framework'
 FUNCTION PlcTest_addTest : BOOL
 VAR_INPUT
 	TestSuiteID : DINT;
@@ -37,6 +39,7 @@ END_VAR
 (*
 	run all tests
 *)
+@Path='Framework'
 FUNCTION PlcTest_Start : BOOL
 VAR_INPUT
 	dummy : DINT;
@@ -45,6 +48,7 @@ END_VAR
 (*
 	check if all tests finished
 *)
+@Path='Framework'
 FUNCTION PlcTest_isFinished : BOOL
 VAR_INPUT
 	dummy : DINT;
@@ -54,6 +58,7 @@ END_VAR
 (*
 	Export actual Results
 *)
+@Path='Framework'
 FUNCTION PlcTest_ExportResult : BOOL
 VAR_INPUT
 	strPath   	: STRING;
@@ -61,16 +66,9 @@ VAR_INPUT
 END_VAR
 
 (*
-	Export actual Results to console
-*)
-FUNCTION PlcTest_ShowLog : BOOL
-VAR_INPUT
-	dummy : DINT;	
-END_VAR
-
-(*
 	signals that actual test is finished
 *)
+@Path='Framework'
 FUNCTION PlcTest_TestFinished : BOOL
 VAR_INPUT
 	dummy : DINT;
@@ -79,6 +77,7 @@ END_VAR
 (*
  	get value of errorcode
 *)
+@Path='Framework'
 FUNCTION PlcTest_getError : DINT
 VAR_INPUT
 	dDummy : DINT;
@@ -87,6 +86,7 @@ END_VAR
 (*
 	add message to actual test
 *)
+@Path='Framework'
 FUNCTION PlcTest_SetMessage : DINT
 VAR_INPUT
 	strMessage : STRING;
@@ -95,6 +95,7 @@ END_VAR
 (*
   Assertion that in is true
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_TRUE : BOOL
 VAR_INPUT
     in : BOOL;
@@ -103,6 +104,7 @@ END_VAR
 (*
   Assertion that in is FALSE
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_FALSE : BOOL
 VAR_INPUT
     in : BOOL;
@@ -111,6 +113,7 @@ END_VAR
 (*
   Assertion that actual end expected are equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_EQUAL : BOOL
 VAR_INPUT
     actual   : DINT;
@@ -120,6 +123,7 @@ END_VAR
 (*
  Assertion that actual end expected are not equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_NOT_EQUAL : BOOL
 VAR_INPUT
     actual   : DINT;
@@ -129,6 +133,7 @@ END_VAR
 (*
   Assertion that actual end expected are equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_EQUAL_REAL : BOOL
 VAR_INPUT
     actual  	: REAL;
@@ -139,6 +144,7 @@ END_VAR
 (*
  Assertion that actual end expected are not equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_NOT_EQUAL_REAL : BOOL
 VAR_INPUT
     actual   	: REAL;
@@ -149,6 +155,7 @@ END_VAR
 (*
   Assertion that actual end expected are equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_EQUAL_TIME : BOOL
 VAR_INPUT
     actual   : TIME;
@@ -158,6 +165,7 @@ END_VAR
 (*
  Assertion that actual end expected are not equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_NOT_EQUAL_TIME : BOOL
 VAR_INPUT
     actual   : TIME;
@@ -167,6 +175,7 @@ END_VAR
 (*
   Assertion that actual end expected are equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_EQUAL_STRING : BOOL
 VAR_INPUT
     actual   : STRING;
@@ -176,6 +185,7 @@ END_VAR
 (*
  Assertion that actual end expected are not equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_NOT_EQUAL_STRING : BOOL
 VAR_INPUT
     actual   : STRING;
@@ -185,6 +195,7 @@ END_VAR
 (*
   Assertion that actual end expected are equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_EQUAL_NSTRING : BOOL
 VAR_INPUT
     actual   : STRING;
@@ -195,6 +206,7 @@ END_VAR
 (*
  Assertion that actual end expected are not equal
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_NOT_EQUAL_NSTRING : BOOL
 VAR_INPUT
     actual   : STRING;
@@ -205,6 +217,7 @@ END_VAR
 (*
  Assertion that actual value is NAN
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_IS_NAN : BOOL
 VAR_INPUT
     actual : REAL;
@@ -213,14 +226,25 @@ END_VAR
 (*
  Assertion that actual value is Infinite
 *)
+@Path='Assertions'
 FUNCTION PlcTest_ASSERT_IS_INFINITE : BOOL
 VAR_INPUT
     actual : REAL;
 END_VAR   
 
 (*
+	Export actual Results to console
+*)
+@Path='Debug'
+FUNCTION PlcTest_ShowLog : BOOL
+VAR_INPUT
+	dummy : DINT;	
+END_VAR
+
+(*
 	set debugmode for logging
 *)
+@Path='Debug'
 FUNCTION PlcTest_Logging : BOOL
 VAR_INPUT
 	bActive : BOOL;
