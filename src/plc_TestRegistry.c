@@ -155,7 +155,7 @@ void plc_AssertImpl(BOOL8 bInput, BOOL8 bFatal)
     {
         pActiveTest->sResult.u32Passed++;
         pActiveSuite->sResult.u32Passed++;
-        if (pActiveTest->pData->eState != eFailed)
+        if (pActiveTest->pData->eState > eFailed)
         {
             pActiveTest->pData->eState = ePassed;
         }
@@ -167,14 +167,23 @@ void plc_AssertImpl(BOOL8 bInput, BOOL8 bFatal)
         {
             pActiveSuite->sResult.u32Failed++;
         }
+
         pActiveTest->pData->eState = eFailed;
-        test_Err("Assertion: Test %s failed", pActiveTest->pName);
-        test_Err("Assertion: Message %s", pActiveTest->strActMessage);
 
         if (bFatal)
         {
+            test_Err("Assertion: Test %s failed fatal", pActiveTest->pName);
             pActiveTest->pData->eState = eFailedFatal;
+            pActiveTest->pData->bFinished = TRUE;
+            pActiveTest->pData->bStart = FALSE;
+            clock_gettime(CLOCK_MONOTONIC, &pActiveTest->sEnd);
         }
+        else
+        {
+            test_Err("Assertion: Test %s failed", pActiveTest->pName);
+        }
+
+        test_Err("Assertion: Message %s", pActiveTest->strActMessage);
     }
 }
 

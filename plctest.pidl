@@ -1,6 +1,6 @@
 Name=plctest
 
-Version 1.4.1 Beta
+Version 1.4.6 Beta
 
 
 (*
@@ -230,7 +230,223 @@ END_VAR
 FUNCTION PlcTest_ASSERT_IS_INFINITE : BOOL
 VAR_INPUT
     actual : REAL;
+END_VAR 
+
+(*
+  Assertion that pointer is NULL
+*)
+@Path='Assertions'
+FUNCTION PlcTest_ASSERT_PTR_NULL : BOOL
+VAR_INPUT
+    actual   : POINTER TO DINT;    
+END_VAR  
+
+(*
+ Assertion that pointer is not NULL
+*)
+@Path='Assertions'
+FUNCTION PlcTest_ASSERT_PTR_NOT_NULL : BOOL
+VAR_INPUT
+    actual   : POINTER TO DINT;
+END_VAR    
+
+(*
+  Assertion that actual end expected are equal
+*)
+@Path='Assertions'
+FUNCTION PlcTest_ASSERT_PTR_EQUAL : BOOL
+VAR_INPUT
+    actual   : POINTER TO DINT;
+    expected : POINTER TO DINT;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+@Path='Assertions'
+FUNCTION PlcTest_ASSERT_PTR_NOT_EQUAL : BOOL
+VAR_INPUT
+    actual   : POINTER TO DINT;
+    expected : POINTER TO DINT;
+END_VAR  
+
+(*
+  Assertion that in is true
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_TRUE_FATAL : BOOL
+VAR_INPUT
+    in : BOOL;
+END_VAR  
+
+(*
+  Assertion that in is FALSE
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_FALSE_FATAL : BOOL
+VAR_INPUT
+    in : BOOL;
+END_VAR    
+
+(*
+  Assertion that actual end expected are equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_EQUAL_FATAL : BOOL
+VAR_INPUT
+    actual   : DINT;
+    expected : DINT;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_FATAL : BOOL
+VAR_INPUT
+    actual   : DINT;
+    expected : DINT;
+END_VAR    
+
+(*
+  Assertion that actual end expected are equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_EQUAL_REAL_FATAL : BOOL
+VAR_INPUT
+    actual  	: REAL;
+    expected 	: REAL;
+    granularity : REAL;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_REAL_FATAL : BOOL
+VAR_INPUT
+    actual   	: REAL;
+    expected 	: REAL;
+    granularity : REAL;    
+END_VAR    
+
+(*
+  Assertion that actual end expected are equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_EQUAL_TIME_FATAL : BOOL
+VAR_INPUT
+    actual   : TIME;
+    expected : TIME;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_TIME_FATAL : BOOL
+VAR_INPUT
+    actual   : TIME;
+    expected : TIME;
 END_VAR   
+
+(*
+  Assertion that actual end expected are equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_EQUAL_STRING_FATAL : BOOL
+VAR_INPUT
+    actual   : STRING;
+    expected : STRING;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_STRING_FATAL : BOOL
+VAR_INPUT
+    actual   : STRING;
+    expected : STRING;
+END_VAR 
+
+(*
+  Assertion that actual end expected are equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_EQUAL_NSTRING_FATAL : BOOL
+VAR_INPUT
+    actual   : STRING;
+    expected : STRING;
+    size	 : UDINT;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_NOT_EQUAL_NSTRING_FATAL : BOOL
+VAR_INPUT
+    actual   : STRING;
+    expected : STRING;
+    size	 : UDINT;
+END_VAR     
+
+(*
+ Assertion that actual value is NAN
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_IS_NAN_FATAL : BOOL
+VAR_INPUT
+    actual : REAL;
+END_VAR   
+
+(*
+ Assertion that actual value is Infinite
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_IS_INFINITE_FATAL : BOOL
+VAR_INPUT
+    actual : REAL;
+END_VAR   
+
+(*
+  Assertion that actual end expected are equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_PTR_NULL_FATAL : BOOL
+VAR_INPUT
+    actual   : POINTER TO DINT;    
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_PTR_NOT_NULL_FATAL : BOOL
+VAR_INPUT
+    actual   : POINTER TO DINT;
+END_VAR    
+
+(*
+  Assertion that actual end expected are equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_PTR_EQUAL_FATAL : BOOL
+VAR_INPUT
+    actual   : POINTER TO DINT;
+    expected : POINTER TO DINT;
+END_VAR  
+
+(*
+ Assertion that actual end expected are not equal
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_PTR_NOT_EQUAL_FATAL : BOOL
+VAR_INPUT
+    actual   : POINTER TO DINT;
+    expected : POINTER TO DINT;
+END_VAR  
 
 (*
 	Export actual Results to console

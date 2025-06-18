@@ -133,7 +133,7 @@ MLOCAL VOID PLCTEST_PlcDllInit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo) // @s
 
         si32TaskHandle =
         sys_TaskSpawn(libplc_GetProjectName(pProject),
-                      "UnitTesttask",
+                      "PlcTestMain",
                       255,
                       VX_FP_TASK,
                       10000,
@@ -530,6 +530,194 @@ BOOL8 PLCTEST_ASSERT_IS_NAN(REAL32 actual)
 
     return TRUE;
 }
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_PTR_NULL(SINT32 *actual)
+{
+    plc_Assert_PTR_NULL(actual);
+
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_PTR_NOT_NULL(SINT32 *actual)
+{
+    plc_Assert_PTR_NOT_NULL(actual);
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_PTR_EQUAL(SINT32 *actual, SINT32 *expected)
+{
+    plc_Assert_PTR_EQUAL(actual, expected);
+
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_PTR_NOT_EQUAL(SINT32 *actual, SINT32 *expected)
+{
+    plc_Assert_PTR_NOT_EQUAL(actual, expected);
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_TRUE_FATAL(BOOL8 in)
+{
+    plc_Assert_TRUE_Fatal(in == TRUE);
+
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_FALSE_FATAL(BOOL8 in)
+{
+    plc_Assert_FALSE_Fatal(in == FALSE);
+
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_EQUAL_FATAL(SINT32 actual, SINT32 expected)
+{
+    plc_Assert_EQUAL_Fatal(actual, expected);
+
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_NOT_EQUAL_FATAL(SINT32 actual, SINT32 expected)
+{
+    plc_Assert_NOT_EQUAL_Fatal(actual, expected);
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_EQUAL_REAL_FATAL(REAL32 actual, REAL32 expected, REAL32 granularity)
+{
+    plc_Assert_TRUE_Fatal((fabs(actual-expected) <= granularity));
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_NOT_EQUAL_REAL_FATAL(REAL32 actual, REAL32 expected, REAL32 granularity)
+{
+    plc_Assert_FALSE_Fatal( (fabs(actual-expected) <= granularity) );
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_EQUAL_TIME_FATAL(UINT32 actual, UINT32 expected)
+{
+    plc_Assert_EQUAL_Fatal(actual, expected);
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_NOT_EQUAL_TIME_FATAL(UINT32 actual, UINT32 expected)
+{
+    plc_Assert_NOT_EQUAL_Fatal(actual, expected);
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_EQUAL_STRING_FATAL(CHAR *actual, CHAR *expected)
+{
+    plc_Assert_EQUAL_Fatal(strcmp(actual, expected), 0);
+    return TRUE;
+};
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_NOT_EQUAL_STRING_FATAL(CHAR *actual, CHAR *expected)
+{
+    plc_Assert_NOT_EQUAL_Fatal(strcmp(actual, expected), 0);
+    return TRUE;
+};
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_EQUAL_NSTRING_FATAL(CHAR *actual, CHAR *expected, UINT32 size)
+{
+    plc_Assert_EQUAL_Fatal(strncmp(actual, expected, size), 0);
+    return TRUE;
+};
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_NOT_EQUAL_NSTRING_FATAL(CHAR *actual, CHAR *expected, UINT32 size)
+{
+    plc_Assert_NOT_EQUAL_Fatal(strncmp(actual, expected, size), 0);
+    return TRUE;
+};
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_IS_INFINITE_FATAL(REAL32 actual)
+{
+    BOOL8 bTest = FALSE;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    UINT32 u32Pos    = u32Value & POS_INFINITE;
+    UINT32 u32Neg    = u32Value & NEG_INFINITE;
+
+    if ((u32Pos == POS_INFINITE) ||
+        (u32Neg == NEG_INFINITE))
+    {
+        bTest = TRUE;
+    }
+
+    plc_Assert_TRUE_Fatal( bTest );
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_IS_NAN_FATAL(REAL32 actual)
+{
+    BOOL8 bTest = FALSE;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    u32Value  = u32Value & NAN_HIGH;
+
+    if (u32Value == NAN_HIGH)
+    {
+        bTest = TRUE;
+    }
+
+    u32Value = u32Value & NAN_LOW;
+
+    if (u32Value == NAN_LOW)
+    {
+        bTest = TRUE;
+    }
+
+    plc_Assert_TRUE_Fatal( bTest );
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_PTR_NULL_FATAL(SINT32 *actual)
+{
+    plc_Assert_PTR_NULL_Fatal(actual);
+
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_PTR_NOT_NULL_FATAL(SINT32 *actual)
+{
+    plc_Assert_PTR_NOT_NULL_Fatal(actual);
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_PTR_EQUAL_FATAL(SINT32 *actual, SINT32 *expected)
+{
+    plc_Assert_PTR_EQUAL_Fatal(actual, expected);
+
+    return TRUE;
+}
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_PTR_NOT_EQUAL_FATAL(SINT32 *actual, SINT32 *expected)
+{
+    plc_Assert_PTR_NOT_EQUAL_Fatal(actual, expected);
+
+    return TRUE;
+}
+
 
 /* ----------------------------------------------------------------- */
 BOOL8 PLCTEST_EXPORTRESULT(CHAR *strPath, CHAR *strFile)
