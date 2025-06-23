@@ -110,8 +110,6 @@ plc_pTest plc_getFirstTest(plc_TestSuite* pSuite)
 
     if (pSuite != NULL)
     {
-        plc_prepare_Test(pSuite->pTest);
-
         return pSuite->pTest;
     }
 
@@ -124,8 +122,6 @@ plc_pTest plc_getNextTest(plc_pTest pTest)
 
     if (pTest != NULL)
     {
-        plc_prepare_Test(pTest->pNext);
-
         if (pTest->pData != NULL)
         {
             pTest->pData->bStart    = FALSE;
@@ -175,7 +171,7 @@ plc_EErrorCode plc_run_Test(plc_pTest pTest)
         {
             if (pTest->pData->bStart == FALSE)
             {
-                test_Info("PLCTEST: Start %s\n", pTest->pName);
+                test_Info("PLCTEST: Start %s", pTest->pName);
                 clock_gettime(CLOCK_MONOTONIC, &pTest->sStart);
             }
             pTest->pData->bStart    = TRUE;

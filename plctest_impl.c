@@ -44,9 +44,10 @@ typedef enum
 {
 
   eIdle           = 0,   /**< Test not started */
-  eExecute        = 1,   /**< Tests are executed */
-  eExport         = 2,  /**< export result */
-  eShowLog        = 3
+  eInit           = 1,
+  eExecute        = 2,   /**< Tests are executed */
+  eExport         = 3,  /**< export result */
+  eShowLog        = 4
 
 } plc_ETestRun;
 
@@ -225,7 +226,7 @@ BOOL8 PLCTEST_ADDTEST(SINT32 TestSuiteID, CHAR *strName, CHAR *strClass, SPlcTes
 }
 
 /* ----------------------------------------------------------------- */
-BOOL8 PLCTEST_START(SINT32 dummy)
+BOOL8 PLCTEST_START(void)
 {
     if (eTestRun == eExecute)
     {
@@ -233,33 +234,19 @@ BOOL8 PLCTEST_START(SINT32 dummy)
         return FALSE;
     }
 
-    if (pActiveSuite == NULL)
-    {
-        pActiveSuite = plc_getFirstSuite();
-        if (pActiveSuite != NULL)
-        {
-            test_Info("PlcTest: Start Suite %s ", pActiveSuite->pName);
-            pActiveSuite->bActive = TRUE;
-        }
-        pActiveTest  = plc_getFirstTest(pActiveSuite);
-        if (pActiveTest != NULL)
-        {
-            plc_run_Test(pActiveTest);
-        }
-        eTestRun = eExecute;
-    }
+    eTestRun = eInit;
 
-    return (pActiveSuite != NULL);
+    return TRUE;
 }
 
 /* ----------------------------------------------------------------- */
-BOOL8 PLCTEST_ISFINISHED(SINT32 dummy)
+BOOL8 PLCTEST_ISFINISHED(void)
 {
-    return (pActiveSuite == NULL);
+    return (eTestRun == eIdle);
 }
 
 /* ----------------------------------------------------------------- */
-BOOL8 PLCTEST_TESTFINISHED(SINT32 dummy)
+BOOL8 PLCTEST_TESTFINISHED(void)
 {
     if (pActiveTest != NULL)
     {
@@ -270,7 +257,7 @@ BOOL8 PLCTEST_TESTFINISHED(SINT32 dummy)
 }
 
 /* ----------------------------------------------------------------- */
-SINT32 PLCTEST_GETERROR(SINT32 dDummy)
+SINT32 PLCTEST_GETERROR(void)
 {
     return 0;
 }
@@ -312,6 +299,35 @@ void PLCTEST_Main(void)
         case eIdle:
             break;
 
+        case eInit:
+
+            pActiveSuite = plc_getFirstSuite();
+            pActiveTest  = plc_getFirstTest(pActiveSuite);
+
+            plc_prepare_Test(pActiveTest);
+            plc_prepare_Suite(pActiveSuite);
+
+            while (pActiveTest != NULL)
+            {
+                pActiveTest = plc_getNextTest(pActiveTest);
+
+                if (pActiveTest == NULL)
+                {
+                    pActiveSuite = plc_getNextSuite(pActiveSuite);
+                    pActiveTest  = plc_getFirstTest(pActiveSuite);
+                }
+                plc_prepare_Test(pActiveTest);
+                plc_prepare_Suite(pActiveSuite);
+            }
+
+            pActiveSuite = plc_getFirstSuite();
+            pActiveTest  = plc_getFirstTest(pActiveSuite);
+
+            test_Info("PlcTest: Start Testrun with Suite %s ", pActiveSuite->pName);
+
+            eTestRun = eExecute;
+            break;
+
         case eExecute:
 
             if (pActiveSuite != NULL && pActiveTest != NULL)
@@ -332,12 +348,12 @@ void PLCTEST_Main(void)
                         }
                     }
 
-                    if (pActiveTest != NULL)
-                    {
-                        plc_run_Test(pActiveTest);
-                    }
-
                 }
+                else
+                {
+                    plc_run_Test(pActiveTest);
+                }
+
             }
             else
             {
@@ -361,7 +377,7 @@ void PLCTEST_Main(void)
         case eShowLog:
 
 
-            log_Info("Result of last Test ");
+            log_Info("Result of last Testrun ");
             pActiveSuite = plc_getFirstSuite();
             pActiveTest  = plc_getFirstTest(pActiveSuite);
 
@@ -370,10 +386,19 @@ void PLCTEST_Main(void)
                 log_Info("-----------------------------------------");
                 switch (pActiveTest->pData->eState)
                 {
-                case eSkipped    :  log_Info("%s : SKIPPED", pActiveTest->pName); break;
-                case ePassed     :  log_Info("%s : PASSED", pActiveTest->pName); break;
-                case eFailed     :  log_Info("%s : FAILED", pActiveTest->pName); break;
-                case eFailedFatal:  log_Info("%s : FAILED FATAL", pActiveTest->pName); break;
+                case eSkipped    :  log_Info("%s : SKIPPED", pActiveTest->pName);
+                                    break;
+
+                case ePassed     :  log_Info("%s : PASSED", pActiveTest->pName);
+                                    break;
+
+                case eFailed     :  log_Info("%s : FAILED", pActiveTest->pName);
+                                    log_Info("Message: %s", &pActiveTest->strMessage[0]);
+                                    break;
+
+                case eFailedFatal:  log_Info("%s : FAILED FATAL", pActiveTest->pName);
+                                    log_Info("Message: %s", &pActiveTest->strMessage[0]);
+                                    break;
                 }
 
                 log_Info("Passed : %d", pActiveTest->sResult.u32Passed);
@@ -739,10 +764,14 @@ BOOL8 PLCTEST_EXPORTRESULT(CHAR *strPath, CHAR *strFile)
     return FALSE;
 }
 /* ----------------------------------------------------------------- */
-BOOL8 PLCTEST_SHOWLOG(SINT32 dummy)
+BOOL8 PLCTEST_SHOWLOG(void)
 {
-    eTestRun = eShowLog;
-    return TRUE;
+    if (eTestRun == eIdle)
+    {
+        eTestRun = eShowLog;
+        return TRUE;
+    }
+    return FALSE;
 }
 /* ----------------------------------------------------------------- */
 BOOL8 PLCTEST_LOGGING(BOOL8 bActive)

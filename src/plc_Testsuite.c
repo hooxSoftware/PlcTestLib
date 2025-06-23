@@ -93,6 +93,28 @@ plc_pTestSuite plc_createTestSuite(CHAR8* pName, CHAR8* pPackage)
 }
 
 //----------------------------------------------------------------------------/
+plc_pTestSuite plc_SearchTestSuite(CHAR8* pName)
+{
+    plc_pTestSuite pSuite = plc_getFirstSuite();
+    int s32Len = strlen(pName);
+
+    while(pSuite != NULL)
+    {
+        if (strlen(pSuite->pName) == s32Len)
+        {
+            if (strcmp(pSuite->pName, pName) == 0)
+            {
+               return pSuite;
+            }
+        }
+
+        pSuite = plc_getNextSuite(pSuite);
+    }
+
+    return NULL;
+}
+
+//----------------------------------------------------------------------------/
 SINT32 plc_addTestSuite(CHAR8* pName, CHAR8* pPackage)
 {
     plc_pTestSuite pSuite = NULL;
@@ -102,6 +124,13 @@ SINT32 plc_addTestSuite(CHAR8* pName, CHAR8* pPackage)
     {
         return 0;
     }
+
+    if (plc_SearchTestSuite(pName) != NULL)
+    {
+        test_Err("plc_createTestSuite: TestSuite %s already exists!", pName);
+        return 0;
+    }
+
 
     pSuite = plc_createTestSuite(pName, pPackage);
 
@@ -189,8 +218,6 @@ plc_pTestSuite plc_getSuite(CHAR8* pName)
 //----------------------------------------------------------------------------/
 plc_pTestSuite plc_getFirstSuite()
 {
-    plc_prepare_Suite(pTestRegistry->pSuite);
-
     return pTestRegistry->pSuite;
 }
 
@@ -221,7 +248,6 @@ plc_pTestSuite plc_getNextSuite(plc_pTestSuite pSuite)
 
         if (pSuite->pNext != NULL)
         {
-            plc_prepare_Suite(pSuite->pNext);
             // check valid testlist
             if (pSuite->pNext->pTest == NULL)
             {
@@ -276,6 +302,12 @@ plc_EErrorCode plc_addTest(plc_pTestSuite pSuite, CHAR8* pName, CHAR8* pClass,VO
         return eNOSUITE;
     }
 
+    if (plc_SearchTest(pSuite, pName) != NULL)
+    {
+        test_Err("plc_addTest: Testname %s already exists!", pName);
+        return eDUP_TEST;
+    }
+
     pTemp = plc_create_Test(pName, pClass);
 
     if (pTemp == NULL)
@@ -308,6 +340,35 @@ plc_EErrorCode plc_addTest(plc_pTestSuite pSuite, CHAR8* pName, CHAR8* pClass,VO
     return eSUCCESS;
 
 
+}
+
+//----------------------------------------------------------------------------/
+plc_pTest plc_SearchTest(plc_pTestSuite pSuite ,CHAR8* pName)
+{
+    plc_Test* pTest = NULL;
+    int s32Len = strlen(pName);
+
+    if (pSuite == NULL)
+    {
+        return NULL;
+    }
+
+    pTest = plc_getFirstTest(pSuite);
+
+    while(pTest != NULL)
+    {
+        if (strlen(pTest->pName) == s32Len)
+        {
+            if (strcmp(pTest->pName, pName) == 0)
+            {
+               return pTest;
+            }
+        }
+
+        pTest = plc_getNextTest(pTest);
+    }
+
+    return NULL;
 }
 
 

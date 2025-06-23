@@ -1,27 +1,33 @@
 Name=plctest
 
-Version 1.4.6 Beta
+Version 1.4.9 Beta
 
 
 (*
  Structure with information about one single Test
+ * s32State
+ * 0  : skipped
+ * 1  : passed
+ * -1 : failed
+ * -2 : failed fatal
 *)
 TYPE SPlcTest_Test := 0
 STRUCT
-    bStart		: BOOL;
-    bFinished 	: BOOL;
-    s32State    : DINT;
+    bStart		: BOOL; (* signals test started  *)
+    bFinished 	: BOOL; (* signals test finished *)
+    s32State    : DINT; (* state of test*)
 END_STRUCT
 END_TYPE 
 
 (*
  create single testsuite
+ * returns handle for later usage
 *)
 @Path='Framework'
 FUNCTION PlcTest_CreateTestsuite : DINT
 VAR_INPUT
-	strName 	: STRING;
-	strPackage 	: STRING;
+	strName 	: STRING; (* free text for testsuite description *)
+	strPackage 	: STRING; (* path to sourcefiles *)
 END_VAR
 
 (*
@@ -30,10 +36,10 @@ END_VAR
 @Path='Framework'
 FUNCTION PlcTest_addTest : BOOL
 VAR_INPUT
-	TestSuiteID : DINT;
-	strName   	: STRING;
-	strClass   	: STRING;
-	pInfo		: POINTER TO SPlcTest_Test;
+	TestSuiteID : DINT;		(* handle of Testsuite *)
+	strName   	: STRING;   (* uniqe test identifier *)
+	strClass   	: STRING;   (* name POU *)
+	pInfo		: POINTER TO SPlcTest_Test; (* address of teststructure *)
 END_VAR
 
 (*
@@ -41,18 +47,12 @@ END_VAR
 *)
 @Path='Framework'
 FUNCTION PlcTest_Start : BOOL
-VAR_INPUT
-	dummy : DINT;
-END_VAR
 
 (*
 	check if all tests finished
 *)
 @Path='Framework'
 FUNCTION PlcTest_isFinished : BOOL
-VAR_INPUT
-	dummy : DINT;
-END_VAR
 
 
 (*
@@ -61,8 +61,8 @@ END_VAR
 @Path='Framework'
 FUNCTION PlcTest_ExportResult : BOOL
 VAR_INPUT
-	strPath   	: STRING;
-	strFile   	: STRING;
+	strPath   	: STRING; (* path to file e.g. "/cfc0/"*)
+	strFile   	: STRING; (* filename e.g. "junit.xml" *)
 END_VAR
 
 (*
@@ -70,26 +70,22 @@ END_VAR
 *)
 @Path='Framework'
 FUNCTION PlcTest_TestFinished : BOOL
-VAR_INPUT
-	dummy : DINT;
-END_VAR
 
 (*
  	get value of errorcode
 *)
 @Path='Framework'
 FUNCTION PlcTest_getError : DINT
-VAR_INPUT
-	dDummy : DINT;
-END_VAR
 
 (*
 	add message to actual test
+* 	if an assertion fails this message is saved in the result
+*  note: only the first failed assert is saved
 *)
 @Path='Framework'
 FUNCTION PlcTest_SetMessage : DINT
 VAR_INPUT
-	strMessage : STRING;
+	strMessage : STRING; (* message for test *)
 END_VAR
 
 (*
@@ -453,9 +449,6 @@ END_VAR
 *)
 @Path='Debug'
 FUNCTION PlcTest_ShowLog : BOOL
-VAR_INPUT
-	dummy : DINT;	
-END_VAR
 
 (*
 	set debugmode for logging
