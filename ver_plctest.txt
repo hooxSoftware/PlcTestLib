@@ -1,6 +1,34 @@
 -----------------------------------------------------------------------------
 Description of the changes in module
 -----------------------------------------------------------------------------
+V1.05.00 Beta
+
+Tested with:
+        MCore  V4.60
+        MSys   V4.80
+
+Changes compared to previous version:
+        - add xxx_Fatal assertions
+        - removed dummy-parameters for functions
+        - avoid duplicate suites and tests
+        
+Known problems:
+        - none
+
+-----------------------------------------------------------------------------
+V1.04.01 Beta
+
+Tested with:
+        MCore  V4.60
+        MSys   V4.80
+
+Changes compared to previous version:
+        - add message on failed assertions in debuglog
+        
+Known problems:
+        - none
+
+-----------------------------------------------------------------------------
 V1.04.00 Beta
 
 Tested with:
@@ -8,7 +36,7 @@ Tested with:
         MSys   V4.80
 
 Changes compared to previous version:
-        - add assertions for loating points NaN and Infinity 
+        - add assertions for floating points NaN and Infinity 
 
 Known problems:
         - none

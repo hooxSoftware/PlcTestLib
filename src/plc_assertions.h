@@ -40,19 +40,19 @@ void plc_AssertImpl(BOOL8 bInput, BOOL8 bFatal);
   { plc_AssertImpl(value, FALSE); }
 
 #define plc_Assert_Fatal(value) \
-  { plc_AssertImpl(value, FALSE); }
+  { plc_AssertImpl(value, TRUE); }
 
 #define plc_Assert_TRUE(value) \
   { plc_AssertImpl(value, FALSE); }
 
-#define plc_Assert_TRUE_FATAL(value) \
-  { plc_AssertImpl(value, FALSE); }
+#define plc_Assert_TRUE_Fatal(value) \
+  { plc_AssertImpl(value, TRUE); }
 
 #define plc_Assert_FALSE(value) \
   { plc_AssertImpl(value, FALSE); }
 
-#define plc_Assert_FALSE_FATAL(value) \
-  { plc_AssertImpl(value, FALSE); }
+#define plc_Assert_FALSE_Fatal(value) \
+  { plc_AssertImpl(value, TRUE); }
 
 #define plc_Assert_EQUAL(value, expected) \
   { plc_AssertImpl( (value == expected), FALSE); }
@@ -79,13 +79,13 @@ void plc_AssertImpl(BOOL8 bInput, BOOL8 bFatal);
   { plc_AssertImpl( (value != NULL), TRUE); }
 
 #define plc_Assert_PTR_EQUAL(value, expected) \
-  { plc_AssertImpl( (value != expected), TRUE); }
+  { plc_AssertImpl( (value == expected), FALSE); }
 
 #define plc_Assert_PTR_EQUAL_Fatal(value, expected) \
-  { plc_AssertImpl( (value != expected), TRUE); }
+  { plc_AssertImpl( (value == expected), TRUE); }
 
 #define plc_Assert_PTR_NOT_EQUAL(value, expected) \
-  { plc_AssertImpl( (value != expected), TRUE); }
+  { plc_AssertImpl( (value != expected), FALSE); }
 
 #define plc_Assert_PTR_NOT_EQUAL_Fatal(value, expected) \
   { plc_AssertImpl( (value != expected), TRUE); }

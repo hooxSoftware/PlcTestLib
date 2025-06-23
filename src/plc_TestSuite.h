@@ -53,6 +53,8 @@
 
 plc_pTestSuite plc_createTestSuite(CHAR8* pName, CHAR8* pPackage);
 
+plc_pTestSuite plc_SearchTestSuite(CHAR8* pName);
+
 SINT32 plc_addTestSuite(CHAR8* pName, CHAR8* pPackage);
 
 plc_EErrorCode plc_cleanup_TestSuite(plc_pTestSuite pSuite);
@@ -73,6 +75,6 @@ plc_pTestSuite plc_get_current_suite(void);
 
 plc_EErrorCode plc_addTest(plc_pTestSuite pSuite, CHAR8* pName, CHAR8* pClass, VOID* pTest);
 
-
+plc_pTest plc_SearchTest(plc_pTestSuite pSuite ,CHAR8* pName);
 
 #endif //SRC_PLC_TESTSUITE_H_
