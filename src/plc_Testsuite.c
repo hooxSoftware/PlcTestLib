@@ -183,7 +183,7 @@ plc_EErrorCode plc_cleanup_TestSuite(plc_pTestSuite pSuite)
 
     pSuite->pName = NULL;
     pSuite->pTest = NULL;
-    pSuite->ui32NumberOfTests = 0;
+    pSuite->u32NumberOfTests = 0;
 
     return eSUCCESS;
 }
@@ -335,7 +335,7 @@ plc_EErrorCode plc_addTest(plc_pTestSuite pSuite, CHAR8* pName, CHAR8* pClass,VO
         pSuite->pTest = pTemp;
     }
 
-    pSuite->ui32NumberOfTests++;
+    pSuite->u32NumberOfTests++;
 
     return eSUCCESS;
 

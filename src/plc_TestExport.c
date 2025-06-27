@@ -44,13 +44,13 @@ MLOCAL FILE* PLCTTEST_FileHandle  = NULL;     /*  Filehandle           */
 const char* XML_START = "<?xml version=\"1.0\" ?>";
 const char* XML_TESTSUITES_START = "<testsuites>";
 const char* XML_TESTSUITES_END   = "</testsuites>";
-const char* XML_TESTSUITE        = "<testsuite name=\"%s\" tests=\"%d\" disabled=\"%d\" errors=\"%d\" failures=\"%d\" package=\"%s\">";
+const char* XML_TESTSUITE        = "<testsuite name=\"%s\" tests=\"%d\" disabled=\"%d\" errors=\"%d\" failures=\"%d\" hostname=\"%s\" id=\"%d\" package=\"%s\">";
 const char* XML_TESTSUITE_END    = "</testsuite>";
 const char* XML_TEST_START       = "<testcase name=\"%s\" assertions=\"%d\" classname=\"%s\" time=\"%d\">";
 const char* XML_TEST_END         = "</testcase>";
 const char* XML_TEST_PASSED      = "</passed>";
-const char* XML_TEST_FAILED      = "</failed message=\"%s\">";
-const char* XML_TEST_SKIPPED     = "</skipped>";
+const char* XML_TEST_FAILED      = "</failure message=\"%s\">";
+const char* XML_TEST_SKIPPED     = "</skipped message=\" \">";
 
 /*
  **********************************************************************
@@ -113,6 +113,7 @@ VOID plc_CreateData(plc_TestRegistry* pData)
     plc_Test      *pTest = NULL;
     plc_TestBuffer_t strBuffer;
     UINT32 u32Duration;
+    UINT32 u32Index = 0;
 
     if (pData == NULL)
     {
@@ -127,13 +128,17 @@ VOID plc_CreateData(plc_TestRegistry* pData)
 
     while(pSuite != NULL)
     {
+        u32Index++;
+
         bzero(&strBuffer[0], sizeof(plc_TestBuffer_t));
         sprintf(&strBuffer[0], XML_TESTSUITE,
                 pSuite->pName,
-                pSuite->ui32NumberOfTests,
+                pSuite->u32NumberOfTests,
                 0,
                 0,
                 pSuite->sResult.u32Failed,
+                "localhost",
+                u32Index,
                 pSuite->pPackage);
 
         fprintf(PLCTTEST_FileHandle, "%s\n", strBuffer);
