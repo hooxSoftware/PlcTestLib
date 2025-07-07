@@ -41,16 +41,16 @@
  **********************************************************************
 */
 MLOCAL FILE* PLCTTEST_FileHandle  = NULL;     /*  Filehandle           */
-const char* XML_START = "<?xml version=\"1.0\" ?>";
+const char* XML_START = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
 const char* XML_TESTSUITES_START = "<testsuites>";
 const char* XML_TESTSUITES_END   = "</testsuites>";
 const char* XML_TESTSUITE        = "<testsuite name=\"%s\" tests=\"%d\" disabled=\"%d\" errors=\"%d\" failures=\"%d\" hostname=\"%s\" id=\"%d\" package=\"%s\">";
 const char* XML_TESTSUITE_END    = "</testsuite>";
 const char* XML_TEST_START       = "<testcase name=\"%s\" assertions=\"%d\" classname=\"%s\" time=\"%d\">";
 const char* XML_TEST_END         = "</testcase>";
-const char* XML_TEST_PASSED      = "</passed>";
-const char* XML_TEST_FAILED      = "</failure message=\"%s\">";
-const char* XML_TEST_SKIPPED     = "</skipped message=\" \">";
+const char* XML_TEST_PASSED      = "<passed/>";
+const char* XML_TEST_FAILED      = "<failure message=\"%s\"/>";
+const char* XML_TEST_SKIPPED     = "<skipped message=\" \"/>";
 
 /*
  **********************************************************************
