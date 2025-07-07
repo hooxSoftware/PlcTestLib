@@ -1,6 +1,32 @@
 -----------------------------------------------------------------------------
 Description of the changes in module
 -----------------------------------------------------------------------------
+V1.07.00
+Tested with:
+        MCore  V4.60
+        MSys   V4.80
+
+Changes compared to previous version:
+        - bugfix in junit xml 
+        
+Known problems:
+        - none
+
+-----------------------------------------------------------------------------
+
+V1.06.00
+Tested with:
+        MCore  V4.60
+        MSys   V4.80
+
+Changes compared to previous version:
+        - avoid more than one plc module with testlib
+        
+Known problems:
+        - none
+
+-----------------------------------------------------------------------------
+
 V1.05.00 Beta
 
 Tested with:
