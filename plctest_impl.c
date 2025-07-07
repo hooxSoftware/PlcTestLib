@@ -98,6 +98,17 @@ void PLCTEST_Main(void);
 *******************************************************************************/
 MLOCAL SINT32 PLCTEST_PlcDllPrepareEx_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo, PLC_EXTLIBCONFIG *pConfig)// @suppress("Unused static function")
 {
+    int s32Handle = 0;
+    pPlcName      = libplc_GetProjectName(pProject);
+
+    s32Handle = taskNameToId("HooxTest");
+
+    if (s32Handle != ERROR)
+    {
+        log_Err("Can not install module, Testing-Task HooxTest alread running");
+        return s32Handle;
+    }
+
     eErrorCode =  eNOREGISTRY;
     plc_SetDebugMode(0);
     return OK;
@@ -119,6 +130,7 @@ MLOCAL VOID PLCTEST_PlcDllInit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo) // @s
     si32TaskHandle     = 0;
     pPlcName           = libplc_GetProjectName(pProject);
 
+
     test_Info("%s Initialize Testregistry!", pPlcName);
 
     eErrorCode = plc_initialize_TestRegistry();
@@ -134,7 +146,7 @@ MLOCAL VOID PLCTEST_PlcDllInit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo) // @s
 
         si32TaskHandle =
         sys_TaskSpawn(libplc_GetProjectName(pProject),
-                      "PlcTestMain",
+                      "HooxTest",
                       255,
                       VX_FP_TASK,
                       10000,

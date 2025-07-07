@@ -125,7 +125,7 @@ typedef struct plc_TestSuite
     struct plc_TestSuite* pPrev;
     struct plc_TestSuite* pNext;
 
-    UINT32 ui32NumberOfTests;
+    UINT32 u32NumberOfTests;
 
 } plc_TestSuite;
 
