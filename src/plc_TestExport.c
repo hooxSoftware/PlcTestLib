@@ -46,7 +46,7 @@ const char* XML_TESTSUITES_START = "<testsuites>";
 const char* XML_TESTSUITES_END   = "</testsuites>";
 const char* XML_TESTSUITE        = "<testsuite name=\"%s\" tests=\"%d\" disabled=\"%d\" errors=\"%d\" failures=\"%d\" hostname=\"%s\" id=\"%d\" package=\"%s\">";
 const char* XML_TESTSUITE_END    = "</testsuite>";
-const char* XML_TEST_START       = "<testcase name=\"%s\" assertions=\"%d\" classname=\"%s\" time=\"%d\">";
+const char* XML_TEST_START       = "<testcase name=\"%s\" assertions=\"%d\" classname=\"%s\" time=\"%d.%03d\">";
 const char* XML_TEST_END         = "</testcase>";
 const char* XML_TEST_PASSED      = "<passed/>";
 const char* XML_TEST_FAILED      = "<failure message=\"%s\"/>";
@@ -113,6 +113,7 @@ VOID plc_CreateData(plc_TestRegistry* pData)
     plc_Test      *pTest = NULL;
     plc_TestBuffer_t strBuffer;
     UINT32 u32Duration;
+    UINT32 u32DurationMS;
     UINT32 u32Index = 0;
 
     if (pData == NULL)
@@ -147,14 +148,16 @@ VOID plc_CreateData(plc_TestRegistry* pData)
 
         while (pTest != NULL)
         {
-            u32Duration = plc_GetDuration(&pTest->sStart, &pTest->sEnd);
+            u32Duration   = plc_GetDuration(&pTest->sStart, &pTest->sEnd) / 1000;
+            u32DurationMS = plc_GetDuration(&pTest->sStart, &pTest->sEnd) - u32Duration;
 
             bzero(&strBuffer[0], sizeof(plc_TestBuffer_t));
             sprintf(&strBuffer[0], XML_TEST_START,
                     pTest->pName,
                     pTest->sResult.u32Failed + pTest->sResult.u32Passed,
                     pTest->pClass,
-                    u32Duration);
+                    u32Duration,
+                    u32DurationMS);
 
             fprintf(PLCTTEST_FileHandle, "%s\n", strBuffer);
 
