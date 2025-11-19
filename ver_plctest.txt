@@ -1,6 +1,19 @@
 -----------------------------------------------------------------------------
 Description of the changes in module
 -----------------------------------------------------------------------------
+V1.7.5
+Tested with:
+        MCore  V4.60
+        MSys   V4.80
+
+Changes compared to previous version:
+        - avoid wrong assertion counts
+        
+Known problems:
+        - none
+
+-----------------------------------------------------------------------------
+
 V1.7.4
 Tested with:
         MCore  V4.60

@@ -150,6 +150,12 @@ void plc_AssertImpl(BOOL8 bInput, BOOL8 bFatal)
         test_Err("Assertion: no Test selected, ActiveTest == NULL!");
         return;
     }
+    // avoid counting errors on asserts after call
+    // of plctest_testfinished
+    if (pActiveTest->pData->bFinished == TRUE)
+    {
+        return;
+    }
 
     if (bInput == TRUE)
     {
