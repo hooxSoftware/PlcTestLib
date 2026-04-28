@@ -105,6 +105,7 @@ typedef struct plc_Test
     struct plc_Test* pNext;
     struct timespec sStart;
     struct timespec sEnd;
+    UINT32 u32Timeout;
 
 } plc_Test;
 

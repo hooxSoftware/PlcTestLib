@@ -33,14 +33,14 @@
 #include <plc_TestRegistry.h>
 #include <plc_assertions.h>
 #include <plc_TestDebug.h>
-
+#include <plc_constants.h>
 
 /*
  **********************************************************************
  type definitions
  **********************************************************************
  */
-typedef enum
+typedef enum plc_ETestRun
 {
 
   eIdle           = 0,   /**< Test not started */
@@ -51,23 +51,19 @@ typedef enum
 
 } plc_ETestRun;
 
+
 /*
  **********************************************************************
  variable definitions
  **********************************************************************
  */
 UINT32 plctest_LibHandle;				/* library-handle */
-SINT32 si32TaskHandle;
-UINT32 ui32TaskDelay;
+SINT32 s32TaskHandle;
+UINT32 u32TaskDelay;
 plc_EErrorCode eErrorCode;
 CHAR* pPlcName;
 CHAR strExportPath[255];
 CHAR strExportFile[255];
-
-const UINT32 POS_INFINITE = 0x7F800000;
-const UINT32 NEG_INFINITE = 0xFF800000;
-const UINT32 NAN_HIGH     = 0x7FC00000;
-const UINT32 NAN_LOW      = 0x000FFFFF;
 
 plc_ETestRun eTestRun;
 
@@ -126,8 +122,8 @@ MLOCAL SINT32 PLCTEST_PlcDllPrepareEx_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo
 MLOCAL VOID PLCTEST_PlcDllInit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo) // @suppress("Unused static function")
 {
     plctest_LibHandle  = 0;
-    ui32TaskDelay      = 0;
-    si32TaskHandle     = 0;
+    u32TaskDelay       = 0;
+    s32TaskHandle      = 0;
     pPlcName           = libplc_GetProjectName(pProject);
 
 
@@ -142,9 +138,10 @@ MLOCAL VOID PLCTEST_PlcDllInit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo) // @s
 
     if (eErrorCode == eSUCCESS)
     {
-        ui32TaskDelay = 20;
+        // set task cycletime to 100 ms
+        u32TaskDelay = (sysClkRateGet() * TASK_CYCLETIME) / 1000;
 
-        si32TaskHandle =
+        s32TaskHandle =
         sys_TaskSpawn(libplc_GetProjectName(pProject),
                       "HooxTest",
                       255,
@@ -152,7 +149,7 @@ MLOCAL VOID PLCTEST_PlcDllInit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo) // @s
                       10000,
                       (FUNCPTR)PLCTEST_Main);
 
-        if (si32TaskHandle != 0)
+        if (s32TaskHandle != 0)
         {
             test_Info("Task for Unittest spawned!");
         }
@@ -179,10 +176,10 @@ MLOCAL VOID PLCTEST_PlcDllDeinit_Impl(PLCPROJ *pProject, PLC_LIBINFO *pInfo)// @
 
     plc_cleanup_TestRegistry();
 
-    if (si32TaskHandle != ERROR)
+    if (s32TaskHandle != ERROR)
     {
         test_Info("Delete Test Task!");
-        taskDelete(si32TaskHandle);
+        taskDelete(s32TaskHandle);
     }
 
 	return;
@@ -282,16 +279,23 @@ SINT32 PLCTEST_SETMESSAGE(CHAR *strMessage)
 
        bzero(&pActiveTest->strActMessage[0], sizeof(plc_TestMessage_t));
        snprintf(&pActiveTest->strActMessage[0], sizeof(plc_TestMessage_t)-1,"%s", strMessage);
-
-       if (pActiveTest->pData->eState > eFailed)
-       {
-           bzero(&pActiveTest->strMessage[0], sizeof(plc_TestMessage_t));
-
-           snprintf(&pActiveTest->strMessage[0], sizeof(plc_TestMessage_t)-1,"%s", strMessage);
-       }
-
     }
     return 0;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_SETTIMEOUT(UINT32 u32Value)
+{
+    if (pActiveTest != NULL)
+    {
+        if (pActiveTest->u32Timeout == 0)
+        {
+            pActiveTest->u32Timeout = u32Value;
+            return TRUE;
+        }
+
+    }
+    return FALSE;
 }
 
 /* ----------------------------------------------------------------- */
@@ -303,7 +307,7 @@ void PLCTEST_Main(void)
     do
     {
         sys_CycleEnd();
-        taskDelay(ui32TaskDelay);
+        taskDelay(u32TaskDelay);
         sys_CycleStart();
 
         switch (eTestRun)
@@ -520,6 +524,46 @@ BOOL8 PLCTEST_ASSERT_NOT_EQUAL_NSTRING(CHAR *actual, CHAR *expected, UINT32 size
 };
 
 /* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_IS_NEGINFINITE(REAL32 actual)
+{
+    BOOL8 bTest = FALSE;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    UINT32 u32Neg    = u32Value & NEG_INFINITE;
+
+    if (u32Neg == NEG_INFINITE)
+    {
+        bTest = TRUE;
+    }
+
+    plc_Assert_TRUE( bTest );
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_IS_POSINFINITE(REAL32 actual)
+{
+    BOOL8 bTest = FALSE;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    UINT32 u32Pos    = u32Value & POS_INFINITE;
+
+    if (u32Pos == POS_INFINITE)
+    {
+        bTest = TRUE;
+    }
+
+    plc_Assert_TRUE( bTest );
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
 BOOL8 PLCTEST_ASSERT_IS_INFINITE(REAL32 actual)
 {
     BOOL8 bTest = FALSE;
@@ -675,6 +719,46 @@ BOOL8 PLCTEST_ASSERT_NOT_EQUAL_NSTRING_FATAL(CHAR *actual, CHAR *expected, UINT3
     plc_Assert_NOT_EQUAL_Fatal(strncmp(actual, expected, size), 0);
     return TRUE;
 };
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_IS_NEGINFINITE_FATAL(REAL32 actual)
+{
+    BOOL8 bTest = FALSE;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    UINT32 u32Neg    = u32Value & NEG_INFINITE;
+
+    if (u32Neg == NEG_INFINITE)
+    {
+        bTest = TRUE;
+    }
+
+    plc_Assert_TRUE_Fatal( bTest );
+
+    return TRUE;
+}
+
+/* ----------------------------------------------------------------- */
+BOOL8 PLCTEST_ASSERT_IS_POSINFINITE_FATAL(REAL32 actual)
+{
+    BOOL8 bTest = FALSE;
+    UINT32 u32Value = 0;
+
+    memcpy(&u32Value, &actual, 4);
+
+    UINT32 u32Pos    = u32Value & POS_INFINITE;
+
+    if (u32Pos == POS_INFINITE)
+    {
+        bTest = TRUE;
+    }
+
+    plc_Assert_TRUE_Fatal( bTest );
+
+    return TRUE;
+}
 
 /* ----------------------------------------------------------------- */
 BOOL8 PLCTEST_ASSERT_IS_INFINITE_FATAL(REAL32 actual)
