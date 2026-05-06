@@ -1,13 +1,36 @@
 ## PlcTestLib
 UnitTest library for Bachmann Electronic PLC Developer
 
+### Download
+
+Download the compiled library and project sample here:
+https://www.hoox.software/downloads.html#bachmann
+
+---
+
+### Claude AI Integration
+
+This repository includes a Claude skill that enables AI-assisted test generation for the PlcTestLib framework.
+
+#### Install Claude Skill
+
+1. Download `bachmann-plctestlib.skill` from this repository
+2. Open [claude.ai](https://claude.ai) and go to **Settings → Claude's skills**
+3. Click **Import skill** and select the `.skill` file
+4. Claude now understands the PlcTestLib framework and can generate test suites, assertions, and boilerplate code for Bachmann PLCs
+
+#### Install SolutionCenter File Template
+
+1. Open the Bachmann SolutionCenter
+2. Go to **Window → Preferences → SolutionCenter → M200 → PLC Developer → File Templates**
+3. Click **Import...** and select `assets/FB_Testsuite.tmp`
+4. When creating a new Function Block, select **Use template → FB_Testsuite** to get a ready-to-use test suite scaffold
+
+---
+
 ### Usage
 
-the project sample contains some code showing the <br>
-usage of the library.
-
-Download it with the compiled library here
-https://www.hoox.software/downloads.html#bachmann
+The project sample contains some code showing the usage of the library.
 
 1. First you have to register a testsuite
 

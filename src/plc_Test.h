@@ -63,6 +63,8 @@ plc_EErrorCode plc_prepare_Test(plc_pTest pTest);
 
 plc_EErrorCode plc_run_Test(plc_pTest pTest);
 
+plc_EErrorCode plc_check_Timeout(plc_pTest pTest);
+
 
 
 

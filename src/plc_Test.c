@@ -32,6 +32,7 @@
  */
 #include <plc_Test.h>
 #include <plc_TestDebug.h>
+//#include <plc_constants.h>
 
 /*
  **********************************************************************
@@ -176,6 +177,37 @@ plc_EErrorCode plc_run_Test(plc_pTest pTest)
             }
             pTest->pData->bStart    = TRUE;
 
+            plc_check_Timeout(pTest);
+        }
+    }
+    return eSUCCESS;
+}
+
+//----------------------------------------------------------------------------/
+plc_EErrorCode plc_check_Timeout(plc_pTest pTest)
+{
+    if (pTest != NULL)
+    {
+        if (pTest->u32Timeout > 0)
+        {
+            if (pTest->u32Timeout >= 100)
+            {
+                pTest->u32Timeout -= 100;
+            }
+            else
+            {
+                pTest->u32Timeout = 0;
+            }
+
+            if (pTest->u32Timeout == 0)
+            {
+                test_Err("Timeout during test %s", pTest->pName);
+                pTest->pData->bStart    = FALSE;
+                pTest->pData->bFinished = TRUE;
+                pTest->pData->eState    = eFailed;
+                clock_gettime(CLOCK_MONOTONIC, &pTest->sEnd);
+                snprintf(&pTest->strMessage[0], sizeof(plc_TestMessage_t)-1,"%s", "Timeout during test");
+            }
         }
     }
     return eSUCCESS;

@@ -1,6 +1,6 @@
 Name=plctest
 
-Version 1.7.5 Beta
+Version 1.8.1 Beta
 
 
 (*
@@ -86,6 +86,17 @@ FUNCTION PlcTest_getError : DINT
 FUNCTION PlcTest_SetMessage : DINT
 VAR_INPUT
 	strMessage : STRING; (* message for test *)
+END_VAR
+
+(*
+*	set timeout to actual test
+* 	if PlcTest_TestFinished is not called the test
+*  will fail. 
+*)
+@Path='Framework'
+FUNCTION PlcTest_SetTimeout : BOOL
+VAR_INPUT
+	u32Value : UDINT; (* timeout for test *)
 END_VAR
 
 (*
@@ -218,6 +229,24 @@ FUNCTION PlcTest_ASSERT_IS_NAN : BOOL
 VAR_INPUT
     actual : REAL;
 END_VAR   
+
+(*
+ Assertion that actual value is Infinite
+*)
+@Path='Assertions'
+FUNCTION PlcTest_ASSERT_IS_POSINFINITE : BOOL
+VAR_INPUT
+    actual : REAL;
+END_VAR 
+
+(*
+ Assertion that actual value is Infinite
+*)
+@Path='Assertions'
+FUNCTION PlcTest_ASSERT_IS_NEGINFINITE : BOOL
+VAR_INPUT
+    actual : REAL;
+END_VAR 
 
 (*
  Assertion that actual value is Infinite
@@ -393,6 +422,24 @@ END_VAR
 *)
 @Path='Assertions/Fatal'
 FUNCTION PlcTest_ASSERT_IS_NAN_FATAL : BOOL
+VAR_INPUT
+    actual : REAL;
+END_VAR   
+
+(*
+ Assertion that actual value is Infinite
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_IS_NEGINFINITE_FATAL : BOOL
+VAR_INPUT
+    actual : REAL;
+END_VAR   
+
+(*
+ Assertion that actual value is Infinite
+*)
+@Path='Assertions/Fatal'
+FUNCTION PlcTest_ASSERT_IS_POSINFINITE_FATAL : BOOL
 VAR_INPUT
     actual : REAL;
 END_VAR   

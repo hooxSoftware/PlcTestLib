@@ -174,6 +174,13 @@ void plc_AssertImpl(BOOL8 bInput, BOOL8 bFatal)
             pActiveSuite->sResult.u32Failed++;
         }
 
+        if (pActiveTest->pData->eState > eFailed)
+        {
+            snprintf(&pActiveTest->strMessage[0],
+                     sizeof(plc_TestMessage_t)-1,
+                     "%s",
+                     &pActiveTest->strActMessage[0]);
+        }
         pActiveTest->pData->eState = eFailed;
 
         if (bFatal)
