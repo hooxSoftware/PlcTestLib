@@ -137,6 +137,10 @@ assert_true(1=1) : will pass
 |--|--|--|
 |strMessage   |String|message to store in result on error|
 
+#### PlcTest_SetTimeout
+|Variable|Type|Description|
+|--|--|--|
+|u32Value   |UDINT|timeout for test|
 
 #### PlcTest_ASSERT_TRUE
 |Variable|Type|
